@@ -20,7 +20,9 @@ function requestListener(req, res) {
     req.on('data', (chunk) => {
       body.push(chunk);
     });
-    // Executed when finished parsing the request
+    // Executed when finished parsing the request (end event listener on req). This will actually happen
+    // after the response has been sent. This means if we are doing something inside of the the
+    // req.on('end') listener, then we should move return res.end() inside of the listener.
     req.on('end', () => {
       const parsedBody = Buffer.concat(body).toString(); // message=<message>
       const message = parsedBody.split('=')[1]; // actual message
