@@ -20,19 +20,21 @@ function requestListener(req, res) {
     req.on('data', (chunk) => {
       body.push(chunk);
     });
-    // Executed when finished parsing the request (end event listener on req). This will actually happen
-    // after the response has been sent. This means if we are doing something inside of the the
-    // req.on('end') listener, then we should move return res.end() inside of the listener.
+    // Executed when finished parsing the request (end event listener on req).
     req.on('end', () => {
       const parsedBody = Buffer.concat(body).toString(); // message=<message>
       const message = parsedBody.split('=')[1]; // actual message
-      fs.writeFileSync('message.txt', message); // write message to file
+      // writeFileSync, as opposed to writeFile, will block code execution until file is created.
+      // fs.writeFileSync('message.txt', message);
+      // alternatively
+      fs.writeFile('message.txt', message, err => {
+        // write multiple Header metadata in one go
+        // Can also be written as res.statusCode = 302 and then use res.setHeader for each header.
+        // Location redirects req back to '/' route (above)
+        res.writeHead(302, { 'Location': '/' })
+        return res.end();
+      });
     });
-    // write multiple Header metadata in one go
-    // Can also be written as res.statusCode = 302 and then use res.setHeader for each header.
-    // Location redirects req back to '/' route (above)
-    res.writeHead(302, { 'Location': '/' })
-    return res.end();
   }
   // type of content which is part of response is HTML
   res.setHeader('Content-Type', 'text/html');
