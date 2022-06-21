@@ -44,4 +44,15 @@ const requestHandler = (req, res) => {
   res.end();
 }
 
-module.exports = requestHandler;
+// module.exports = requestHandler;
+
+// or
+
+// module.exports = {
+//   requestHandler,
+//   someText: 'Some hard coded text'
+// }
+
+// or
+
+exports.requestHandler = requestHandler;
