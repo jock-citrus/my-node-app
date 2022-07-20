@@ -16,7 +16,8 @@ app.use('/add-product', (req, res, next) => {
   res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>'); // express will interpret and add header for text/html
 });
 
-app.use('/product', (req, res, next) => {
+// Trigger only for incoming post requests
+app.post('/product', (req, res, next) => {
   console.log(req.body);
   res.redirect('/');
 });
