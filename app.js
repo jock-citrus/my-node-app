@@ -16,7 +16,5 @@ app.use((req, res, next) => {
   res.send('<p>Hello from Express!</p>'); // express will interpret and add header for text/html
 });
 
-const server = http.createServer(app);
-
-// calling listen will keep node running
-server.listen(3000);
+// calling listen will keep the server running
+app.listen(3000);
