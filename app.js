@@ -12,6 +12,8 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   console.log("In middleware 2");
+  // send is an express util function
+  res.send('<p>Hello from Express!</p>'); // express will interpret and add header for text/html
 });
 
 const server = http.createServer(app);
