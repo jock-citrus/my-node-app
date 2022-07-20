@@ -13,5 +13,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(adminRoutes);
 app.use(shopRoutes);
 
+// catch all filter for any requests that don't match any routes
+app.use((req, res, next) => {
+  res.status(404).send('<h1>Page not found</h1>')
+})
+
 // calling listen will keep the server running
 app.listen(3000);
