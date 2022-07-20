@@ -1,19 +1,19 @@
-const http = require('http');
-
 const express = require('express');
 
 const app = express();
 
-// next allows the request to continue to the next middleware in line
-app.use((req, res, next) => {
-  console.log("In middleware 1");
+app.use('/', (req, res, next) => {
+  console.log('This is middleware that always runs before calling "next" and passing on to next middleware')
   next();
+})
+
+app.use('/add-product', (req, res, next) => {
+  res.send('<p>The "Add Product" Page</p>'); // express will interpret and add header for text/html
 });
 
-app.use((req, res, next) => {
-  console.log("In middleware 2");
-  // send is an express util function
-  res.send('<p>Hello from Express!</p>'); // express will interpret and add header for text/html
+// '/' must go last because every route will be matched with 'starts with' '/'
+app.use('/', (req, res, next) => {
+  res.send('<p>Hello from Express!</p>'); // express will infer and add header for text/html
 });
 
 // calling listen will keep the server running
