@@ -10,7 +10,7 @@ const shopRoutes = require('./routes/shop')
 // and passing on to next middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(adminRoutes);
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 // catch all filter for any requests that don't match any routes
