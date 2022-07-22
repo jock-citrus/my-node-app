@@ -18,7 +18,7 @@ app.use(shopRoutes);
 
 // catch all filter for any requests that don't match any routes
 app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(rootDir, 'views', 'page-not-found.html'));
+  res.status(404).sendFile(path.join(rootDir, 'views', '404.html'));
 })
 
 // calling listen will keep the server running
