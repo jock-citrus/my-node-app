@@ -1,14 +1,14 @@
 const express = require('express');
 const path = require('path');
 
-
+const rootDir = require('../util/path')
 // Router is like a mini express app which is able to be plugged in
 // to main express instance.
 const router = express.Router();
 
 // /admin/add-product => GET
 router.get('/add-product', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../', 'views', 'add-product.html'));
+  res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
 });
 
 // /admin/add-product => POST

@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 
+const rootDir = require('./util/path')
+
 const app = express();
 
 const adminRoutes = require('./routes/admin')
@@ -16,7 +18,7 @@ app.use(shopRoutes);
 
 // catch all filter for any requests that don't match any routes
 app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(__dirname, 'views', 'page-not-found.html'));
+  res.status(404).sendFile(path.join(rootDir, 'views', 'page-not-found.html'));
 })
 
 // calling listen will keep the server running
