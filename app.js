@@ -12,6 +12,10 @@ const shopRoutes = require('./routes/shop')
 // Registers a middleware which parses the req.body before calling next()
 // and passing on to next middleware
 app.use(bodyParser.urlencoded({ extended: false }));
+// pass in a folder we want to grant read access to.
+// we want to grant access to the public dir so in the HTML
+// files we can reference the stylesheets
+app.use(express.static(path.join(rootDir, 'public')))
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
