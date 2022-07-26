@@ -6,7 +6,7 @@ const rootDir = require('./util/path')
 
 const app = express();
 
-const adminRoutes = require('./routes/admin')
+const adminData = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
 
 // Registers a middleware which parses the req.body before calling next()
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // files we can reference the stylesheets
 app.use(express.static(path.join(rootDir, 'public')))
 
-app.use('/admin', adminRoutes);
+app.use('/admin', adminData.routes);
 app.use(shopRoutes);
 
 // catch all filter for any requests that don't match any routes
