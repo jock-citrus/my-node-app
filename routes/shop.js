@@ -1,7 +1,4 @@
 const express = require('express');
-const path = require('path');
-
-const rootDir = require('../util/path')
 const adminData = require('./admin');
 
 // Router is like a mini express app which is able to be plugged in
@@ -13,7 +10,7 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
   // render will use templating engine defined in app.js, and will look in views dir for templating
   // file of same name. This will render shop.pug.
-  res.render('shop')
+  res.render('shop', { prods: adminData.products, docTitle: 'Shop' })
 });
 
 module.exports = router;
