@@ -1,13 +1,17 @@
-const express = require('express');
 const path = require('path');
+
+const express = require('express');
 const bodyParser = require('body-parser');
+const expressHbs = require('express-handlebars')
 
 const rootDir = require('./util/path');
 
 const app = express();
 
+app.engine('hbs', expressHbs());
+
 // Set global config value on express app
-app.set('view engine', 'pug');
+app.set('view engine', 'hbs');
 // Telling express app that the views are in the /views dir.
 // This is the default location express would look for,
 // but leaving here as an example.
