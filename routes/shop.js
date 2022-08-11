@@ -12,14 +12,9 @@ router.get('/', (req, res, next) => {
   // render will use templating engine defined in app.js, and will look in views dir for templating
   // file of same name. This will render shop.pug.
   res.render('shop', {
-    path: '/admin/shop',
-    // pug & hbs
-    prods: products,
     docTitle: 'Shop',
-    // hbs only
-    hasProducts: products.length > 0,
-    activeShop: true,
-    productCss: true
+    path: '/admin/shop',
+    prods: products
   })
 });
 
