@@ -8,7 +8,7 @@ const rootDir = require('./util/path');
 
 const app = express();
 
-app.engine('hbs', expressHbs());
+app.engine('hbs', expressHbs({ layoutsDir: 'views/layouts', defaultLayout: 'main-layout', extname: 'hbs' }));
 
 // Set global config value on express app
 app.set('view engine', 'hbs');

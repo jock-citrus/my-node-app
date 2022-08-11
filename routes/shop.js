@@ -11,7 +11,16 @@ router.get('/', (req, res, next) => {
   const { products } = adminData;
   // render will use templating engine defined in app.js, and will look in views dir for templating
   // file of same name. This will render shop.pug.
-  res.render('shop', { prods: products, docTitle: 'Shop', path: '/admin/shop', hasProducts: products.length > 0 })
+  res.render('shop', {
+    path: '/admin/shop',
+    // pug & hbs
+    prods: products,
+    docTitle: 'Shop',
+    // hbs only
+    hasProducts: products.length > 0,
+    activeShop: true,
+    productCss: true
+  })
 });
 
 module.exports = router;
