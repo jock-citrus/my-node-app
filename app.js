@@ -7,9 +7,6 @@ const rootDir = require('./util/path');
 
 const app = express();
 
-// This config only needed for handlebars
-// app.engine('hbs', expressHbs({ layoutsDir: 'views/layouts', defaultLayout: 'main-layout', extname: 'hbs' }));
-
 // Set global config value on express app
 app.set('view engine', 'ejs');
 // Telling express app that the views are in the /views dir.
