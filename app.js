@@ -33,7 +33,7 @@ app.use(shopRoutes);
 
 // catch all filter for any requests that don't match any routes
 app.use((req, res, next) => {
-  res.render('404', {docTitle: 'Page Not Found'});
+  res.render('404', {docTitle: 'Page Not Found', path: '' });
 });
 
 // calling listen will keep the server running
