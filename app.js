@@ -3,6 +3,8 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const errorController = require('./controllers/error');
+
 const rootDir = require('./util/path');
 
 const app = express();
@@ -29,9 +31,7 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 // catch all filter for any requests that don't match any routes
-app.use((req, res, next) => {
-  res.render('404', {docTitle: 'Page Not Found', path: '' });
-});
+app.use(errorController.get404);
 
 // calling listen will keep the server running
 app.listen(3000);
