@@ -1,8 +1,9 @@
+const path = require('path');
+
 const express = require('express');
+
 const shopController = require('../controllers/shop');
 
-// Router is like a mini express app which is able to be plugged in
-// to main express instance.
 const router = express.Router();
 
 router.get('/', shopController.getIndex);
