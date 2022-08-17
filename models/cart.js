@@ -26,15 +26,14 @@ module.exports = class Cart {
     getCartFromFile(cart => {
       const existingProductIndex = cart.products.findIndex(p => p.id === id);
       const existingProduct = cart.products[existingProductIndex];
-      let updatedProduct;
-      if(existingProductIndex) {
-        updatedProduct = { ...existingProduct };
-        updatedProduct.qty = updatedProduct.qty + 1;
-        cart.products = [...cart.products];
+      const updatedProduct = { id, qty: existingProduct ? existingProduct.qty + 1 : 1 };
+
+      cart.products = [...cart.products];
+      
+      if (existingProduct) {
         cart.products[existingProductIndex] = updatedProduct;
       } else {
-        updatedProduct = { id, qty: 1 };
-        cart.products = [...cart.products, updatedProduct ]
+        cart.products.push(updatedProduct)
       }
 
       cart.totalPrice = cart.totalPrice + +productPrice;
