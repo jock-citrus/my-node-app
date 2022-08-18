@@ -41,6 +41,14 @@ exports.addToCart = (req, res, next) => {
   });
 };
 
+exports.deleteCartItem = (req, res, next) => {
+  const { productId } = req.body;
+  Product.findById(productId, product => {
+    Cart.deleteByProductId(productId, product.price)
+    res.redirect('/cart')
+  });
+};
+
 exports.getCart = (req, res, next) => {
   Cart.getCart(cart => {
     Product.fetchAll(products => {
@@ -57,7 +65,6 @@ exports.getCart = (req, res, next) => {
         pageTitle: 'Your Cart',
         productData
       });
-
     })
   })
 };
