@@ -42,10 +42,24 @@ exports.addToCart = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  res.render('shop/cart', {
-    path: '/cart',
-    pageTitle: 'Your Cart'
-  });
+  Cart.getCart(cart => {
+    Product.fetchAll(products => {
+      const productData = [];
+      cart.products.forEach(p => {
+        const product = products.find(({ id }) => p.id === id);
+        productData.push({
+          product,
+          qty: p.qty
+        })
+      })
+      res.render('shop/cart', {
+        path: '/cart',
+        pageTitle: 'Your Cart',
+        productData
+      });
+
+    })
+  })
 };
 
 exports.getOrders = (req, res, next) => {

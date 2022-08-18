@@ -56,4 +56,10 @@ module.exports = class Cart {
       })
     })
   }
+
+  static getCart(cb) {
+    getCartFromFile(cart => {
+      cb(cart);
+    })
+  }
 }
