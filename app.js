@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
-const db = require('./util/database');
+const sequelize = require('./util/database');
 
 const app = express();
 
@@ -22,4 +22,14 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(3000);
+// sync will sync JS definitions e.g Product with Database by creating
+// tables that do not exist for any defined models e.g. Product
+sequelize
+  .sync()
+  .then(() => {
+    app.listen(3000);
+  })
+  .catch(err => {
+    console.log('sequelize.sync()', err)
+  });
+
