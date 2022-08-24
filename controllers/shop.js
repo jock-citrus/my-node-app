@@ -13,7 +13,8 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const { productId } = req.params;
-
+  // Could also use findAll with WHERE conditions
+  // Product.findAll({ where: { id: productId } }).then(products)
   Product.findByPk(productId).then(product => {
     res.render('shop/product-detail', {
       product: product,
@@ -35,26 +36,26 @@ exports.getIndex = (req, res, next) => {
 
 exports.addToCart = (req, res, next) => {
   const { productId } = req.body;
-  Product.findById(productId).then(([rowData]) => {
-    Cart.addProduct(productId, rowData[0].price)
+  Product.findByPk(productId).then(product => {
+    Cart.addProduct(productId, product.price)
     res.redirect('/cart')
   });
 };
 
 exports.deleteCartItem = (req, res, next) => {
   const { productId } = req.body;
-  Product.findById(productId).then(([rowData]) => {
-    Cart.deleteByProductId(productId, rowData[0].price)
+  Product.findByPk(productId).then(product => {
+    Cart.deleteByProductId(productId, product.price)
     res.redirect('/cart')
   });
 };
 
 exports.getCart = (req, res, next) => {
   Cart.getCart(cart => {
-    Product.fetchAll().then(([rowData]) => {
+    Product.findAll().then(products=> {
       const productData = [];
       cart.products.forEach(p => {
-        const product = rowData.find(({ id }) => p.id === id);
+        const product = products.find(({ id }) => p.id === id);
         productData.push({
           product,
           qty: p.qty
