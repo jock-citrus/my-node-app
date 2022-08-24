@@ -37,7 +37,7 @@ exports.postAddProduct = (req, res, next) => {
     price,
     imageUrl,
     description
-  }).then(() => console.log('Created product', title)).catch(err => console.log('exports.postAddProduct', err));
+  }).then(() => res.redirect('/')).catch(err => console.log('exports.postAddProduct', err));
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -55,8 +55,11 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const { productId } = req.body;
-  Product.deleteById(productId);
-  res.redirect('/');
+  Product
+    .findByPk(productId)
+    .then(product => product.destroy())
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err => 'exports.postDeleteProduct', err));
 };
 
 exports.getProducts = (req, res, next) => {
