@@ -14,10 +14,10 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   const { productId } = req.params;
 
-  Product.findById(productId, product => {
+  Product.findById(productId).then(([rowData]) => {
     res.render('shop/product-detail', {
-      product,
-      pageTitle: product.title,
+      product: rowData[0],
+      pageTitle: rowData[0].title,
       path: '/products'
     });
   });
@@ -35,16 +35,16 @@ exports.getIndex = (req, res, next) => {
 
 exports.addToCart = (req, res, next) => {
   const { productId } = req.body;
-  Product.findById(productId, product => {
-    Cart.addProduct(productId, product.price)
+  Product.findById(productId).then(([rowData]) => {
+    Cart.addProduct(productId, rowData[0].price)
     res.redirect('/cart')
   });
 };
 
 exports.deleteCartItem = (req, res, next) => {
   const { productId } = req.body;
-  Product.findById(productId, product => {
-    Cart.deleteByProductId(productId, product.price)
+  Product.findById(productId).then(([rowData]) => {
+    Cart.deleteByProductId(productId, rowData[0].price)
     res.redirect('/cart')
   });
 };

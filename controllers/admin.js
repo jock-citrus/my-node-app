@@ -16,17 +16,15 @@ exports.getEditProduct = (req, res, next) => {
 
   const {productId} = req.params;
   
-  Product.findById(productId, product => {
-    if (!product) {
-      return res.redirect('/');
-    }
-    res.render('admin/edit-product', {
-      pageTitle: 'Edit Product',
-      path: '/admin/edit-product',
-      editing,
-      product
-    });
-  })
+  Product.findById(productId)
+    .then(([rowData]) => {
+      res.render('admin/edit-product', {
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-product',
+        editing,
+        product: rowData[0]
+      });
+    }).catch(err => console.log('Product.findById', err))
 };
 
 exports.postAddProduct = (req, res, next) => {
