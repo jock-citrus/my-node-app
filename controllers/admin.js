@@ -16,16 +16,20 @@ exports.getEditProduct = (req, res, next) => {
 
   const {productId} = req.params;
   
-  Product.findByPk(productId)
-    .then(product => {
-      if (!product) {
+  // Method on Product
+  // Product.findByPk(productId)
+
+  // Magic Association Method on User
+  req.user.getProducts({ where: { id: productId }})
+    .then(products => {
+      if (!products.length) {
         return res.redirect('/');
       }
       res.render('admin/edit-product', {
         pageTitle: 'Edit Product',
         path: '/admin/edit-product',
         editing,
-        product
+        product: products[0]
       });
     }).catch(err => console.log('Product.findById', err))
 };
@@ -82,7 +86,12 @@ exports.postDeleteProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.findAll().then(products => {
+  // General method, will return all products
+  // Product.findAll()
+
+  // Magic Association Method on the User will
+  // return only products belonging to that user.
+  req.user.getProducts().then(products => {
     res.render('admin/products', {
       prods: products,
       pageTitle: 'Admin Products',
