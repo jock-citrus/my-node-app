@@ -19,6 +19,13 @@ const shopRoutes = require('./routes/shop');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, res, next) => {
+  User.findByPk(1).then(user => {
+    req.user = user;
+    next();
+  }).catch(err => console.log('app.js', err))
+})
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
@@ -36,7 +43,18 @@ User.hasMany(Product)
 // sync will sync JS definitions e.g Product with Database by creating
 // tables that do not exist for any defined models e.g. Product
 sequelize
-  .sync({ force: true })
+  // Use below if want to override DB tables
+  // .sync({ force: true })
+  .sync()
+  .then(() => {
+    return User.findByPk(1);
+  })
+  .then(user => {
+    if(!user) {
+      return User.create({ name: 'Jock', email: 'test@gmail.com'})
+    }
+    return user
+  })
   .then(() => {
     app.listen(3000);
   })
