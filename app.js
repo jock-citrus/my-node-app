@@ -31,7 +31,7 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-// Define relations between models
+// Define associations between models
 
 // CASCADE means if we delete a User, the we also want to delete all
 // Products related to that User.

@@ -32,13 +32,31 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   const {title, imageUrl, price, description} = req.body;
-  Product.create({
+  // When we defined associations in app.js, sequelize added
+  // createProduct method to the userModel, as we defined a
+  // User has many products and a Product belongs to a
+  // User. Notice, no userId defined. These are known as Magic
+  // Association Methods.
+  req.user.createProduct({
     title,
     price,
     imageUrl,
-    description,
-    userId: req.user.id
+    description
   }).then(() => res.redirect('/')).catch(err => console.log('exports.postAddProduct', err));
+
+  /**
+   * Alternatively could do
+   * 
+   * Product.create({
+   *  title,
+   *  price,
+   *  imageUrl,
+   *  description,
+   *  userId: req.user.id
+   * })
+   * 
+  */
+  
 };
 
 exports.postEditProduct = (req, res, next) => {
