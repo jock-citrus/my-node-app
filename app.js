@@ -7,6 +7,8 @@ const errorController = require('./controllers/error');
 const sequelize = require('./util/database');
 const Product = require('./models/product')
 const User = require('./models/user')
+const Cart = require('./models/cart')
+const CartItem = require('./models/cartItem')
 
 const app = express();
 
@@ -38,14 +40,25 @@ app.use(errorController.get404);
 Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 // could define either belongsTo, or the inverse hasMany. We are
 // doing both here to be explicit.
-User.hasMany(Product)
+User.hasMany(Product);
+
+
+// Don't need to define both but have below to be explicit.
+User.hasOne(Cart);
+Cart.belongsTo(User);
+
+// A Cart has multiple Products and a Product can be in
+// multiple Carts. Defining here that these relationships
+// should be stored in the CartItem model.
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
 
 // sync will sync JS definitions e.g Product with Database by creating
 // tables that do not exist for any defined models e.g. Product
 sequelize
   // Use below if want to override DB tables
-  // .sync({ force: true })
-  .sync()
+  .sync({ force: true })
+  // .sync()
   .then(() => {
     return User.findByPk(1);
   })
