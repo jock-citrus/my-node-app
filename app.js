@@ -57,8 +57,8 @@ Product.belongsToMany(Cart, { through: CartItem });
 // tables that do not exist for any defined models e.g. Product
 sequelize
   // Use below if want to override DB tables
-  .sync({ force: true })
-  // .sync()
+  // .sync({ force: true })
+  .sync()
   .then(() => {
     return User.findByPk(1);
   })
@@ -68,9 +68,8 @@ sequelize
     }
     return user
   })
-  .then(() => {
-    app.listen(3000);
-  })
+  .then(user => user.createCart())
+  .then(() => app.listen(3000))
   .catch(err => {
     console.log('sequelize.sync()', err)
   });
