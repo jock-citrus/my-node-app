@@ -44,19 +44,17 @@ exports.addToCart = (req, res, next) => {
       return cart.getProducts({ where: { id: productId }})
     })
     .then(products => {
-      // const product = products[0];
-      // if (products.length) {
-
-      // }
-      // const updatedProduct = product ? { ...product, quantity: product } : {}
+      const existingProduct = products[0];
+      if (existingProduct) {
+        return { product: existingProduct, quantity: existingProduct.cartItem.quantity + 1 }
+      }
 
       return Product
         .findByPk(productId)
-        .then(product => {
-          return fetchedCart.addProduct(product, { through: { quantity: 1 } })
-        })
+        .then(product => ({ product, quantity: 1 }))
 
     })
+    .then(({ product, quantity }) => fetchedCart.addProduct(product, { through: { quantity } }))
     .then(() => res.redirect('/cart'))
     .catch(err => console.log('exports.addToCart', err))
 };
