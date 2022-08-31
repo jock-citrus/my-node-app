@@ -105,9 +105,13 @@ exports.getCart = (req, res, next) => {
 };
 
 exports.postCreateOrder = (req, res, next) => {
+  let fetchedCart
   req.user
     .getCart()
-    .then(cart => cart.getProducts())
+    .then(cart => {
+      fetchedCart = cart;
+      return cart.getProducts();
+    })
     .then(products => {
       return req.user.createOrder().then(order => {
         const productsExt = products.map(product => {
@@ -118,6 +122,9 @@ exports.postCreateOrder = (req, res, next) => {
         })
         return order.addProducts(productsExt)
       }).catch(err => console.log('exports.postCreateOrder, createOrder', err))
+    })
+    .then(() => {
+      fetchedCart.setProducts(null);
     })
     .then(() => {
       res.redirect('/orders')
